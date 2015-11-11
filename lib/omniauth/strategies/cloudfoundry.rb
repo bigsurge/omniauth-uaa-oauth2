@@ -140,7 +140,7 @@ module OmniAuth
         }
       end
 
-      uid{ raw_info["user_id"] || raw_info["email"] }
+      uid{ raw_info["id"] || raw_info["email"] }
 
       info do
         prune!({
@@ -158,7 +158,7 @@ module OmniAuth
       end
 
       def raw_info
-        @raw_info ||= uaa_info.whoami(self.access_token.auth_header)
+        @raw_info ||= uaa_info.whoami(options.client_id,self.access_token.info["access_token"])
       rescue CF::UAA::TargetError => e
         log :error, "#{e.message}: #{e.info}"
         {}
@@ -187,8 +187,8 @@ module OmniAuth
 
       def expired?(access_token)
         access_token = access_token.auth_header if access_token.respond_to? :auth_header
-        expiry = CF::UAA::TokenCoder.decode(access_token.split()[1], nil, nil, false)[:expires_at]		
-        expiry.is_a?(Integer) && expiry <= Time.now.to_i
+        #expiry = CF::UAA::TokenCoder.decode(access_token.split()[1], nil, nil, false)[:expires_at]		
+        #expiry.is_a?(Integer) && expiry <= Time.now.to_i
       end
 
       class CallbackError < StandardError
