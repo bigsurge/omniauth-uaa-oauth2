@@ -11,9 +11,9 @@
 # subcomponent's license, as noted in the LICENSE file.
 #++
 
-source 'http://rubygems.org'
+source "https://ruby.taobao.org"
 
-gem 'cf-uaa-lib', '~> 3.2.4'
+gem 'cf-uaa-lib', :github => 'bigsurge/cf-uaa-lib'
 
 gemspec
 
